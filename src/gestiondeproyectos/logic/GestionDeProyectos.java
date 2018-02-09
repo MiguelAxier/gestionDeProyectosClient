@@ -18,7 +18,7 @@ public class GestionDeProyectos extends Application {
     public void start(Stage stage) throws Exception {
         FacturasManager facturasManager = new FacturasManagerTestDataGenerator();
         ProyectosManager proyectosManager = new ProyectosManagerTestDataGenerator();
-        ClientesManager clientesManager = new ClientesManagerTestDataGenerator();
+        ClientesManager clientesManager = new ClienteManagerImplementation();
         
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/gestiondeproyectos/ui/view/ventanaFacturas.fxml"));
         Parent root = (Parent) loader.load();

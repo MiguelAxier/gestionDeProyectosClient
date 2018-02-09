@@ -5,62 +5,59 @@
  */
 package gestiondeproyectos.ui.controller;
 
+import java.io.Serializable;
+import java.math.BigInteger;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Miguel Axier Lafuente Peñas
  */
-public class ClienteBean {
+@XmlRootElement(name="cliente")
+public class ClienteBean implements Serializable {
     private SimpleStringProperty nif;
     private SimpleStringProperty nombre;
     private SimpleStringProperty direccion;
-    private SimpleStringProperty telefono;
+    private SimpleObjectProperty telefono;
     private SimpleStringProperty email;
     private SimpleStringProperty web;
-    private SimpleStringProperty nombreContacto;
-    private SimpleStringProperty telefonoContacto;
-    private SimpleStringProperty emailContacto;
+    private SimpleObjectProperty<PersonaDeContactoBean> contacto;
     
-    public ClienteBean(String nif, String nombre, String direccion, String telefono
-                        ,String email, String web, String nombreContacto
-                        ,String telefonoContacto, String emailContacto){
+    //TODO 
+    
+    public ClienteBean(){
+        this.nif=new SimpleStringProperty();
+        this.nombre=new SimpleStringProperty();
+        this.direccion=new SimpleStringProperty();
+        this.telefono=new SimpleObjectProperty();
+        this.email=new SimpleStringProperty();
+        this.web=new SimpleStringProperty();
+        this.contacto = new SimpleObjectProperty();
+    }
+    
+    public ClienteBean(String nif, String nombre, String direccion, Integer telefono
+                        ,String email, String web, PersonaDeContactoBean contacto){
         
         this.nif=new SimpleStringProperty(nif);
         this.nombre=new SimpleStringProperty(nombre);
         this.direccion=new SimpleStringProperty(direccion);
-        this.telefono=new SimpleStringProperty(telefono);
+        this.telefono=new SimpleObjectProperty(telefono);
         this.email=new SimpleStringProperty(email);
         this.web=new SimpleStringProperty(web);
-        this.nombreContacto=new SimpleStringProperty(nombreContacto);
-        this.telefonoContacto=new SimpleStringProperty(telefonoContacto);
-        this.emailContacto=new SimpleStringProperty(emailContacto);
+        this.contacto=new SimpleObjectProperty(contacto);
         
         
+        
     }
-
-    public String getNombreContacto() {
-        return this.nombreContacto.get();
+    public PersonaDeContactoBean getContacto(){
+        return this.contacto.get();
     }
-
-    public void setNombreContacto(String nombreContacto) {
-        this.nombreContacto.set(nombreContacto);
-    }
-
-    public String getTelefonoContacto() {
-        return this.telefonoContacto.get();
-    }
-
-    public void setTelefonoContacto(String telefonoContacto) {
-        this.telefonoContacto.set(telefonoContacto);
-    }
-
-    public String getEmailContacto() {
-        return this.emailContacto.get();
-    }
-
-    public void setEmailContacto(String emailContacto) {
-        this.emailContacto.set(emailContacto);
+    
+    public void setContacto(PersonaDeContactoBean contacto){
+        this.contacto.set(contacto);
     }
     
     public String getNif() {
@@ -87,11 +84,11 @@ public class ClienteBean {
         this.direccion.set(direccion);
     }
 
-    public String getTelefono() {
-        return this.telefono.get();
+    public BigInteger getTelefono() {
+        return (BigInteger) this.telefono.get();
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(BigInteger telefono) {
         this.telefono.set(telefono);
     }
 

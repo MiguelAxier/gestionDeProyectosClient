@@ -26,7 +26,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
-
+import java.math.BigInteger;
 import javafx.scene.control.MenuItem;
 import gestiondeproyectos.logic.ClientesManager;
 import gestiondeproyectos.logic.FacturasManager;
@@ -49,7 +49,7 @@ public class VentanaClientesController {
     private ObservableList<ClienteBean> clientes;
     
     private Stage stage;
-    
+
     @FXML
     private Button btnAgnadir;
     @FXML
@@ -190,11 +190,12 @@ public class VentanaClientesController {
                 txtDireccion.setText(cliente.getDireccion());
                 txtEmail.setText(cliente.getEmail());
                 txtNombre.setText(cliente.getNombre());
-                txtTelefono.setText(cliente.getTelefono());
+                txtTelefono.setText(cliente.getTelefono().toString());
                 txtWeb.setText(cliente.getWeb());
-                txtNombrePC.setText(cliente.getNombreContacto());
-                txtTelefonoPC.setText(cliente.getTelefonoContacto());
-                txtEmailPC.setText(cliente.getEmailContacto());
+                txtNombrePC.setText(cliente.getContacto().getNombre());
+                txtTelefonoPC.setText(cliente.getContacto().getTelefono().toString());
+                txtEmailPC.setText(cliente.getContacto().getEmail());
+
 
                 btnAgnadir.setDisable(true);
                 btnModificar.setDisable(false);
@@ -232,11 +233,14 @@ public class VentanaClientesController {
                     alert.showAndWait();
                     txtNif.requestFocus();
                 } else {
+                    PersonaDeContactoBean contacto = new PersonaDeContactoBean(txtNombrePC.getText(),
+                                    txtEmailPC.getText(),
+                                    BigInteger.valueOf(Long.parseLong(txtTelefonoPC.getText())));
+                    
                     ClienteBean cliente = new ClienteBean(txtNif.getText(), txtNombre.getText()
-                                    ,txtDireccion.getText(), txtTelefono.getText()
-                                    ,txtEmail.getText(), txtWeb.getText()
-                                    ,txtNombrePC.getText(), txtTelefonoPC.getText()
-                                    ,txtEmailPC.getText());
+                                    ,txtDireccion.getText(), Integer.parseInt(txtTelefono.getText())
+                                    ,txtEmail.getText(), txtWeb.getText(),contacto);
+                    
                 clientesManager.agnadirCliente(cliente);
                 clientes=FXCollections.observableArrayList(clientesManager.getAllClientes());
                 tbClientes.setItems(clientes);
@@ -294,11 +298,13 @@ public class VentanaClientesController {
                 clienteSelec.setNif(txtNif.getText());
                 clienteSelec.setDireccion(txtDireccion.getText());
                 clienteSelec.setEmail(txtEmail.getText());
-                clienteSelec.setTelefono(txtTelefono.getText());
+                clienteSelec.setTelefono(BigInteger.valueOf(Long.parseLong(txtTelefono.getText())));
                 clienteSelec.setWeb(txtWeb.getText());
-                clienteSelec.setNombreContacto(txtNombrePC.getText());
-                clienteSelec.setEmailContacto(txtEmailPC.getText());
-                clienteSelec.setTelefonoContacto(txtTelefonoPC.getText());
+                
+                clienteSelec.getContacto().setNombre(txtNombrePC.getText());
+                clienteSelec.getContacto().setEmail(txtEmailPC.getText());
+                clienteSelec.getContacto().setTelefono(BigInteger.valueOf(Long.parseLong(txtTelefonoPC.getText())));
+
                 clientesManager.modificarCliente(clienteSelec,oldNif);
                 clientes=FXCollections.observableArrayList(clientesManager.getAllClientes());
                 tbClientes.setItems(clientes);
