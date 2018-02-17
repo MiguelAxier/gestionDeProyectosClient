@@ -2,6 +2,7 @@
 package gestiondeproyectos.logic;
 
 import gestiondeproyectos.ui.controller.ClienteBean;
+import gestiondeproyectos.ui.controller.PersonaDeContactoBean;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +21,7 @@ public class ClientesManagerTestDataGenerator implements ClientesManager{
      * Constructor de la clase que genera una ArrayList con 10 clientes
      */
     public ClientesManagerTestDataGenerator (){
+        clientes = null;
 //        clientes = new ArrayList();
 //        for(int i=0;i<10;i++){
 //            //Los clientes que tienen como indice un numero par son morosos.
@@ -128,6 +130,26 @@ public class ClientesManagerTestDataGenerator implements ClientesManager{
         Pattern pattern = Pattern.compile(patternEmail);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    @Override
+    public void agnadirContacto(PersonaDeContactoBean contacto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void modificarContacto(PersonaDeContactoBean contacto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void eliminarContacto(PersonaDeContactoBean contacto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Collection<ClienteBean> getClientesMorosos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

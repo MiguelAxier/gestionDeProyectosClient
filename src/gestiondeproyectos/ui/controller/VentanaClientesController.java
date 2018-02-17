@@ -193,7 +193,11 @@ public class VentanaClientesController {
                 txtTelefono.setText(cliente.getTelefono().toString());
                 txtWeb.setText(cliente.getWeb());
                 txtNombrePC.setText(cliente.getContacto().getNombre());
-                txtTelefonoPC.setText(cliente.getContacto().getTelefono().toString());
+                if(cliente.getContacto().getTelefono()==null){
+                    txtTelefonoPC.setText("");
+                } else {
+                    txtTelefonoPC.setText(String.valueOf(cliente.getContacto().getTelefono()));
+                }
                 txtEmailPC.setText(cliente.getContacto().getEmail());
 
 
@@ -217,6 +221,7 @@ public class VentanaClientesController {
      */
     @FXML
     public void handleOnActionAgnadir (ActionEvent e){
+        clientesManager.getClientesMorosos();
         logger.info("En el evento del boton añadir");
            if(txtNif.getText().trim().equals("")||txtTelefono.getText().trim().equals("")||
                     txtNombre.getText().trim().equals("")||txtEmail.getText().trim().equals("")||
@@ -233,12 +238,19 @@ public class VentanaClientesController {
                     alert.showAndWait();
                     txtNif.requestFocus();
                 } else {
+                 
+                    BigInteger telefonoC = null;
+                    
+                    if(txtTelefonoPC.getText().compareTo("")!=0){
+                        telefonoC = BigInteger.valueOf(Long.parseLong(txtTelefonoPC.getText()));
+                    }
+                    
                     PersonaDeContactoBean contacto = new PersonaDeContactoBean(txtNombrePC.getText(),
                                     txtEmailPC.getText(),
-                                    BigInteger.valueOf(Long.parseLong(txtTelefonoPC.getText())));
+                                    telefonoC);
                     
                     ClienteBean cliente = new ClienteBean(txtNif.getText(), txtNombre.getText()
-                                    ,txtDireccion.getText(), Integer.parseInt(txtTelefono.getText())
+                                    ,txtDireccion.getText(),BigInteger.valueOf(Long.parseLong(txtTelefono.getText()))
                                     ,txtEmail.getText(), txtWeb.getText(),contacto);
                     
                 clientesManager.agnadirCliente(cliente);

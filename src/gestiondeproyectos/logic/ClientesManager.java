@@ -2,6 +2,7 @@
 package gestiondeproyectos.logic;
 
 import gestiondeproyectos.ui.controller.ClienteBean;
+import gestiondeproyectos.ui.controller.PersonaDeContactoBean;
 import java.util.Collection;
 
 /**
@@ -52,5 +53,10 @@ public interface ClientesManager {
      * @param nif String. Nif del antiguo cliente
      */
     public void modificarCliente(ClienteBean cliente, String nif);
+    
+    public Collection<ClienteBean> getClientesMorosos();
+    public void agnadirContacto(PersonaDeContactoBean contacto);
+    public void modificarContacto(PersonaDeContactoBean contacto);
+    public void eliminarContacto(PersonaDeContactoBean contacto);
     
 }

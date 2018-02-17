@@ -38,7 +38,7 @@ public class ClienteBean implements Serializable {
         this.contacto = new SimpleObjectProperty();
     }
     
-    public ClienteBean(String nif, String nombre, String direccion, Integer telefono
+    public ClienteBean(String nif, String nombre, String direccion, BigInteger telefono
                         ,String email, String web, PersonaDeContactoBean contacto){
         
         this.nif=new SimpleStringProperty(nif);

@@ -35,13 +35,13 @@ public class PersonaDeContactoBean implements Serializable{
         this.email = new SimpleStringProperty(email);
         this.telefono = new SimpleObjectProperty(telefono);
     }
-    public Integer getId() {
-        return this.id.get();
-    }
-
-    public void setId(Integer id) {
-        this.id.set(id);
-    }
+//    public Integer getId() {
+//        return this.id.get();
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id.set(id);
+//    }
 
     public String getNombre() {
         return this.nombre.get();

@@ -53,6 +53,12 @@ public class ClienteRESTClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
     
+    public <T> T getClientesMorosos_XML(GenericType<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    }
+    
+    
     public <T> T getClienteByNombre_XML(GenericType<T> responseType, String nombre) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("findNombre/{0}", new Object[]{nombre}));
