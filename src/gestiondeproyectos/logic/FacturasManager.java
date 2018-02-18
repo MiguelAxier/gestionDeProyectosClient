@@ -6,6 +6,7 @@ package gestiondeproyectos.logic;
 import gestiondeproyectos.ui.controller.FacturaBean;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -19,4 +20,5 @@ public interface FacturasManager {
     public boolean buscarNFactura(int num);
     public void modificarFactura(FacturaBean factura,int numero);
     public boolean comprobarEstado(int numero);
+    public List<FacturaBean> getFacturasPendientes();
 }

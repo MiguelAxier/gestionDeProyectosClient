@@ -2,8 +2,11 @@
 package gestiondeproyectos.logic;
 
 import gestiondeproyectos.ui.controller.ClienteBean;
+import gestiondeproyectos.ui.controller.FacturaBean;
 import gestiondeproyectos.ui.controller.PersonaDeContactoBean;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Interfaz que conecta la capa de logica con la ui
@@ -23,7 +26,7 @@ public interface ClientesManager {
      * @param nif String
      * @return colección de clientes
      */
-    public Collection buscarClientes(Boolean pendiente,String email,String nif);
+    public Collection buscarClientes(Boolean pendiente,String email,String nif,List<FacturaBean> facturasPendientes);
  
     /**
      * Metodo que añade un cliente.
@@ -54,9 +57,9 @@ public interface ClientesManager {
      */
     public void modificarCliente(ClienteBean cliente, String nif);
     
-    public Collection<ClienteBean> getClientesMorosos();
     public void agnadirContacto(PersonaDeContactoBean contacto);
     public void modificarContacto(PersonaDeContactoBean contacto);
     public void eliminarContacto(PersonaDeContactoBean contacto);
+    
     
 }

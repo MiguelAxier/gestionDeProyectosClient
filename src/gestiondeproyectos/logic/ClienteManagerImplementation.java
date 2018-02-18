@@ -6,8 +6,9 @@
 package gestiondeproyectos.logic;
 
 import gestiondeproyectos.rest.ClienteRESTClient;
-import gestiondeproyectos.rest.PersonaDeContactoRESTClient;
+
 import gestiondeproyectos.ui.controller.ClienteBean;
+import gestiondeproyectos.ui.controller.FacturaBean;
 import gestiondeproyectos.ui.controller.PersonaDeContactoBean;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +28,7 @@ import javax.ws.rs.core.GenericType;
 public class ClienteManagerImplementation implements ClientesManager{
     //REST Cliente web client
     private ClienteRESTClient webClient;
-    private PersonaDeContactoRESTClient webContacto;
+    //private PersonaDeContactoRESTClient webContacto;
    
     private List<ClienteBean> clientes;
     //Logger
@@ -35,7 +36,7 @@ public class ClienteManagerImplementation implements ClientesManager{
     
     public ClienteManagerImplementation(){
         webClient=new ClienteRESTClient();
-        webContacto=new PersonaDeContactoRESTClient();
+        //webContacto=new PersonaDeContactoRESTClient();
         clientes = new ArrayList<>();
         LOGGER.info("ClienteManagerImplementation:Finding all customer from REST service (XML).");
         clientes = webClient.getAllClientes_XML(new GenericType<List<ClienteBean>>(){});
@@ -47,22 +48,24 @@ public class ClienteManagerImplementation implements ClientesManager{
         return clientes;
     }
     
-    @Override
-    public Collection<ClienteBean> getClientesMorosos() {
-        Collection <ClienteBean> clientesMorosos;
-        LOGGER.info("ClienteManagerImplementation:Finding all customer with pending invoices (XML).");
-        clientesMorosos = webClient.getClientesMorosos_XML(new GenericType<List<ClienteBean>>(){});
-        LOGGER.log(Level.INFO,"ClienteManagerImplementation: collection size {0},",clientesMorosos.size());
-        return clientesMorosos;
-    }
     
     @Override
-    public Collection buscarClientes(Boolean pendiente, String email, String nif) {
+    public Collection buscarClientes(Boolean pendiente, String email, String nif,
+                                                List<FacturaBean> facturasPendientes) {
         Collection clientesFiltro = clientes;
-        ArrayList<ClienteBean> clientesFiltroAux;
+        List<ClienteBean> clientesFiltroAux;
+        ArrayList <ClienteBean> clientesMorosos = new ArrayList<>();
+       
             if(pendiente){
-                LOGGER.info("ClienteManagerImplementation:Finding all customer with pending invoices.");
-                //
+                clientes.forEach((cliente) -> {
+                    facturasPendientes.stream().filter((facturaPendiente) -> (facturaPendiente.getNif().compareTo(cliente.getNif())==0)).forEachOrdered((_item) -> {
+                        if(!clientesMorosos.contains(cliente)){
+                            clientesMorosos.add(cliente);
+                        }
+                        
+                    });
+                });
+                clientesFiltro = clientesMorosos;
             }
             if(email.length()!=0){
                 LOGGER.info("ClienteManagerImplementation:Finding customer by e-mail.");
@@ -77,6 +80,7 @@ public class ClienteManagerImplementation implements ClientesManager{
                 clientesFiltro=clientesFiltroAux.stream().filter(c -> c.getNif().contains(nif))
                                     .map(c -> c).collect(Collectors.toList());
             }
+            
             return clientesFiltro;
     }
 
@@ -130,8 +134,5 @@ public class ClienteManagerImplementation implements ClientesManager{
     @Override
     public void eliminarContacto(PersonaDeContactoBean contacto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    
+    }   
 }

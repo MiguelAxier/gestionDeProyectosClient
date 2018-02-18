@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -55,6 +56,17 @@ public class FacturasManagerTestDataGenerator implements FacturasManager{
      * @param fechaHasta define la fecha de vencimiento tope de la búsqueda de facturas
      * @return facturas devuelve una colección de facturas que cumplan con los criterios de búsqueda
      */
+    
+    @Override
+    public List<FacturaBean> getFacturasPendientes() {
+        List<FacturaBean> facturasFiltro = facturas;
+        facturasFiltro = facturas.stream()
+                            .filter(f -> f.getEstado().equals("no pagada"))
+                .map(f -> f).collect(Collectors.toList());
+        
+        return facturasFiltro;
+    }
+    
     @Override
     public Collection buscarFacturas(Boolean check, String nif, LocalDate fechaDesde, LocalDate fechaHasta) {
         Collection facturasFiltro = null;
@@ -145,4 +157,6 @@ public class FacturasManagerTestDataGenerator implements FacturasManager{
         }   
        return resultado;
    }
+
+    
 }

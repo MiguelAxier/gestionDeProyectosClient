@@ -31,6 +31,7 @@ import javafx.scene.control.MenuItem;
 import gestiondeproyectos.logic.ClientesManager;
 import gestiondeproyectos.logic.FacturasManager;
 import gestiondeproyectos.logic.ProyectosManager;
+import java.util.ArrayList;
 import javafx.stage.WindowEvent;
 
 
@@ -221,7 +222,7 @@ public class VentanaClientesController {
      */
     @FXML
     public void handleOnActionAgnadir (ActionEvent e){
-        clientesManager.getClientesMorosos();
+        
         logger.info("En el evento del boton añadir");
            if(txtNif.getText().trim().equals("")||txtTelefono.getText().trim().equals("")||
                     txtNombre.getText().trim().equals("")||txtEmail.getText().trim().equals("")||
@@ -342,7 +343,9 @@ public class VentanaClientesController {
             check = true;
         }
         clientes = FXCollections.observableArrayList(clientesManager.buscarClientes(check,
-                           txtBusquedaEmail.getText().trim(), txtBusquedaNIF.getText().trim()));
+                           txtBusquedaEmail.getText().trim(), txtBusquedaNIF.getText().trim(),
+                           facturasManager.getFacturasPendientes()));
+                           
         if(clientes.isEmpty()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
                         "No hay clientes que cumplan las condiciones de búsqueda");
